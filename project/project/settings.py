@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -50,8 +51,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.common.CommonMiddleware",
+
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -80,8 +82,12 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'MyShopDB',
+        'USER': 'postgres',
+        'PASSWORD': '0106',
+        'HOST': 'localhost',
+        'PORT': 5432,
     }
 }
 
@@ -136,3 +142,4 @@ REST_FRAMEWORK = {
 
 AUTH_USER_MODEL = 'api.User' 
 
+CORS_ORIGIN_ALLOW_ALL = True

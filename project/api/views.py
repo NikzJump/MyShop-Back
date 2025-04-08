@@ -23,6 +23,7 @@ def login(request):
 
     return Response({'data': {'user_token': token.key}})
 
+
 @api_view(['POST'])
 def signup(request): 
     serializer = UserSerializer(data=request.data)

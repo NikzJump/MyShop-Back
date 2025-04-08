@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.contrib.auth.hashers import make_password
 
+
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
@@ -26,10 +27,11 @@ class UserManager(BaseUserManager):
             raise ValueError("Superuser must have is_superuser=True.")
 
         return self._create_user(email, password, **extra_fields)
-    
+
+
 class User(AbstractBaseUser, PermissionsMixin):
     fio = models.CharField(max_length=99)
-    email = models.EmailField(unique= True)
+    email = models.EmailField(unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
@@ -38,15 +40,18 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["fio"]
 
+
 class Products(models.Model):
     name = models.CharField(max_length=99)
     description = models.CharField(max_length=999)
     price = models.IntegerField(default=0)
 
+
 class Cart(models.Model):
     products = models.ManyToManyField(Products)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    
+
+
 class Order(models.Model):
     products = models.ManyToManyField(Products)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
