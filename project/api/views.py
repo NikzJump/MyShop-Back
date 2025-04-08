@@ -115,12 +115,13 @@ def add_cart(request, pk):
             except:
                 return Response({'error': {
                     'message': 'not found',
-                    'code': 40000000000000000000000004}})
+                    'code': 404}})
             if request.method == 'POST':
                 cart, _ = Cart.objects.get_or_create(user=request.user)
                 cart.products.add(product)
 
                 return Response({'message': 'product added to cart', "code": 201})
+
             elif request.method == 'DELETE':
                 cart, _ = Cart.objects.get_or_create(user=request.user)
                 cart.products.remove(product)
@@ -139,14 +140,18 @@ def get_order(request):
                 serializer = OrderSerializer(order, many=True)
 
                 return Response({'data': serializer.data, 'code': 200})
+
             elif request.method == 'POST':
                 order = Order.objects.create(user=request.user)
                 cart, _ = Cart.objects.get_or_create(user=request.user)
-                price = 0
+                full_price = 0
                 for product in cart.products.all():
-                    price += product.price
+                    full_price += product.price
                     order.products.add(product)
-                data = order.save()
+
+                order.order_price = full_price
+
+                order.save()
                 cart.delete()
 
         return Response({'“error”: {“code”: 403,“message”: “Forbidden for you”}'})
