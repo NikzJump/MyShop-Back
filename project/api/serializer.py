@@ -16,17 +16,21 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
-    
+
+
 class ProductsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Products
         fields = '__all__'
 
+
 class CartSerializer(serializers.ModelSerializer):
     products = ProductsSerializer(many=True)
+
     class Meta:
         model = Cart
         fields = '__all__'
+
 
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
