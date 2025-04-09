@@ -156,3 +156,15 @@ def get_order(request):
 
         return Response({'“error”: {“code”: 403,“message”: “Forbidden for you”}'})
     return Response({'“error”: {“code”: 403,“message”: “Forbidden for you”}'})
+
+
+@api_view(['DELETE'])
+def del_order(request, pk):
+    order = Order.objects.get(pk=pk)
+
+    if not order:
+        return Response({'error': {'message': 'not found', 'code': 404}})
+
+    order.delete()
+
+    return Response({"message": "order deleted", "code": 200})
